@@ -1,2 +1,5 @@
-# wsl
-Zapisy na olimpiady
+# Aplikacja do zapisów na olimpiady
+# dla WSL
+
+## Wymagania
+
