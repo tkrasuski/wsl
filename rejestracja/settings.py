@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'olimpiada',
+    'pagedown',
+    'markdown_deux',
 ]
 
 MIDDLEWARE = [

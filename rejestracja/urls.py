@@ -16,8 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path,  re_path
 from olimpiada import views
-
+from django.views.generic import FormView
+from olimpiada import forms
 urlpatterns = [
     path('admin/', admin.site.urls),
     re_path(r'^olimpiady/$', views.index),
+    re_path(r'^form/$', FormView.as_view(template_name="form.html",form_class=forms.Article)),
+    re_path(r'^article/(?P<id>\d+)/$', views.article),
 ]

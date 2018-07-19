@@ -1,7 +1,8 @@
 from django.db import models
 from django.core.validators import RegexValidator
 from django.conf import settings
-
+import datetime
+from pagedown.widgets import AdminPagedownWidget
 phone_regex = RegexValidator(regex=r'^\d{5,15}$', message="Wprowadź prawidłowy numer telefonu")
 email_regex = RegexValidator(regex=r'^[\w.-]+@[\w.-]+.\w+$', message="Wprowadź prawidłowy numer telefonu")
 # Create your models here.
@@ -38,4 +39,19 @@ class Teacher(models.Model):
         return self.first_name+' '+self.last_name
     def __str__(self):
         return self.first_name+' '+self.last_name
-#class 
+class Article(models.Model):
+    creator = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    creation_date = models.DateField('Data utworzenia',auto_now_add=True, blank=True)
+    modification_date = models.DateField('Data modyfikacji', auto_now_add=True, blank=True)
+    title = models.CharField('Tytuł', max_length=100, blank=False)
+    lead = models.CharField('Lead', max_length=300, blank=True)
+    text = models.TextField('Tekst artykułu', blank=False)
+    tags = models.CharField('tagi', max_length=500, blank=True)
+    class Meta:
+        verbose_name = "Artykuł"
+        verbose_name_plural = "Artykuły"
+
+    def __unicode__(self):
+        return self.title
+    def __str__(self):
+        return self.title
