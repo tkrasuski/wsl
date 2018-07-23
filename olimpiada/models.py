@@ -14,7 +14,7 @@ class School(models.Model):
     voivodeship = models.CharField('Województwo', max_length=100)
     authority = models.CharField('Organ prowadzący', max_length=100)
     phone_number = models.CharField('Numer telefonu sekretariatu / dyrekcji',validators=[phone_regex], max_length=17) 
-    email =models.CharField('Adres email sekretariatu',validators=[email_regex], max_length=50) 
+    email = models.CharField('Adres email sekretariatu',validators=[email_regex], max_length=50, blank=False) 
     principal_name = models.CharField('Imię i nazwisko Dyrektora Szkoły', max_length=50, blank=True)
     class Meta:
         verbose_name = "Szkoła"
@@ -30,6 +30,7 @@ class Teacher(models.Model):
     last_name = models.CharField('Nazwisko',max_length=100)
     position = models.CharField('Tytuł lub stopień zawodowy / naukowy',max_length=100)
     phone_no = models.IntegerField('Telefon kontaktowy')
+    email =models.CharField('Adres email sekretariatu',validators=[email_regex], max_length=50, blank=False, default='adres@szkola.pl') 
     school = models.ForeignKey(School, on_delete=models.CASCADE)
     class Meta:
         verbose_name = "Nauczyciel"
@@ -47,6 +48,7 @@ class Article(models.Model):
     lead = models.CharField('Lead', max_length=300, blank=True)
     text = models.TextField('Tekst artykułu', blank=False)
     tags = models.CharField('tagi', max_length=500, blank=True)
+    position = models.CharField('Umieść na stronie', max_length=100, blank=True)
     class Meta:
         verbose_name = "Artykuł"
         verbose_name_plural = "Artykuły"

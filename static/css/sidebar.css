@@ -6,7 +6,7 @@
   z-index: 1; /* Stay on top */
   top: 0; /* Stay at the top */
   left: 0;
-  background-color: #5f0404; /* Black */
+  background-color: #1f93db; /* Black */
   overflow-x: hidden; /* Disable horizontal scroll */
   padding-top: 20px;
 }
@@ -15,14 +15,14 @@
 .sidenav a {
   padding: 6px 8px 6px 16px;
   text-decoration: none;
-  font-size: 25px;
-  color: #ec0c75;
-  display: block;
+  font-size: 5px;
+  color: #ffffff;
+  display: hidden;
 }
 
 /* When you mouse over the navigation links, change their color */
 .sidenav a:hover {
-  color: #f1f1f1;
+  color: #000000;
 }
 
 /* Style page content */

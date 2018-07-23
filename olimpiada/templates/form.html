@@ -1,22 +1,11 @@
 {% extends "base.html" %}
 {% load markdown_deux_tags %}
-{% block title %}Ankieta{% endblock %}
+{% block title %}form{% endblock %}
 {% block content %}
 {{ form.media }}
 <div class="container">
 <form>
-    <div class="row">
-        <div class="col-sm">
-            {{ form.title }}
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm">
-            
-            {{form.text}}
-            
-        </div>
-    </div>
+    {{ form }}
     <input type="submit" value="zapisz"/>
 </form>
 User: {{ request.user }}

@@ -1,7 +1,23 @@
 {% extends "base.html" %}
-{% block title %}Ankieta{% endblock %}
+{% block title %}OOL{% endblock %}
+{% load markdown_deux_tags %}
 {% block content %}
+<div class="container main">
+{% for o in arts %}
+<p>
+    {{ o.text|markdown }}
+</p>
 
-<h6>{{ tekst1 }}</h6>
+{% endfor %}
 
+
+<div class="row">
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item"><a href="/profile">Dane nauczyciela</a></li>
+        <li class="list-group-item"><a href="/school">Informacje o szkole</a></li>
+        <li class="list-group-item"><a href="#">Uczniowie</a></li>
+        <li class="list-group-item"><a href="#">Olimpiady</a></li>
+      </ul>
+</div>
+</div>
 {% endblock%}

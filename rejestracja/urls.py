@@ -20,7 +20,10 @@ from django.views.generic import FormView
 from olimpiada import forms
 urlpatterns = [
     path('admin/', admin.site.urls),
-    re_path(r'^olimpiady/$', views.index),
+    path(r'', views.index),
+    path('index/', views.index),
     re_path(r'^form/$', FormView.as_view(template_name="form.html",form_class=forms.Article)),
     re_path(r'^article/(?P<id>\d+)/$', views.article),
+    re_path(r'^profile/$', views.profile),
+    re_path(r'^school/$', views.school),
 ]

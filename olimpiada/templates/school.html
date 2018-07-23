@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}OOL{% endblock %}
+{% block content %}
+
+<div class="container main">
+        <p class="h5 ">Informacje o szkole:
+            <br>
+        </p>
+    <form  method="post">
+        {% csrf_token %}
+        {{ form }}
+        <br>
+        <div class="form-group">
+            <button type="submit" class="btn btn-default">Zapisz</button>
+        </div>
+    </form>
+    
+</div>
+{% endblock%}
