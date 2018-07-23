@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.validators import RegexValidator
 from django.conf import settings
+from django.contrib.auth.models import Group
 import datetime
 from pagedown.widgets import AdminPagedownWidget
 phone_regex = RegexValidator(regex=r'^\d{5,15}$', message="Wprowadź prawidłowy numer telefonu")
@@ -52,6 +53,33 @@ class Article(models.Model):
     class Meta:
         verbose_name = "Artykuł"
         verbose_name_plural = "Artykuły"
+
+    def __unicode__(self):
+        return self.title
+    def __str__(self):
+        return self.title
+class Student(models.Model):
+    first_name = models.CharField('Imię',max_length=100)
+    last_name = models.CharField('Nazwisko',max_length=100)
+    school = models.ForeignKey(School, on_delete=models.CASCADE)
+    classe = models.CharField('Klasa',max_length=100)
+    
+    class Meta:
+        verbose_name = "Uczeń"
+        verbose_name_plural = "Uczniowie"
+
+    def __unicode__(self):
+        return self.first_name+' '+self.last_name
+    def __str__(self):
+        return self.first_name+' '+self.last_name
+class Acceptance(models.Model):
+    title = models.CharField('Tytuł', max_length=100, blank=False)
+    text = models.TextField('Tekst oświadczenia', blank=False)
+    required = models.BooleanField('Wymagana?')
+    group = models.ForeignKey(Group,on_delete=models.CASCADE)
+    class Meta:
+        verbose_name = "Zgoda"
+        verbose_name_plural = "Zgody"
 
     def __unicode__(self):
         return self.title
