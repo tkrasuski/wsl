@@ -13,6 +13,8 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
+from  rejestracja import settings
 from django.contrib import admin
 from django.urls import path,  re_path
 from olimpiada import views
@@ -26,4 +28,5 @@ urlpatterns = [
     re_path(r'^article/(?P<id>\d+)/$', views.article),
     re_path(r'^profile/$', views.profile),
     re_path(r'^school/$', views.school),
+   
 ]
