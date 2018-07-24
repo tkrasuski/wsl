@@ -1,1 +1,1 @@
-web: gunicorn rejestracja.wsgi.py
+web: gunicorn {{ project_name }}.wsgi
