@@ -1,1 +1,1 @@
-web: gunicorn rejestracja.wsgi
+web: gunicorn wsgi
