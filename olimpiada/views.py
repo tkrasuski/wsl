@@ -1,17 +1,34 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import redirect
 from django.shortcuts import render
 from django.utils import timezone
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import Teacher, School, Article
 from .forms import *
-def login(request):
-    return render(request,'login.html')
 
-def login(request):
+def userlogin(request):
+    #print (request.user.login)
     arts={}
-    return render(request, 'login.html', {'arts':arts})
-
+    message = None
+    if request.method=='POST':
+        data = request.POST
+        #print (data) 
+        user_ = data['username']
+        pass_ = data['password']
+        user = authenticate(username=user_, password=pass_)
+       #print (user)
+        if user:
+            login(request,user)
+            return HttpResponseRedirect('/')
+        else:
+            message = 'Nieprawidłowa nazwa użytkownika lub hasło'
+            return render(request, 'login.html', {'arts':arts, 'message':message})
+    else:
+        return render(request, 'login.html', {'arts':arts, 'message':message})
+def userlogout(request):
+    logout(request)
+    return HttpResponseRedirect('/accounts/login')
 @login_required
 def index(request):
     try:
@@ -21,7 +38,7 @@ def index(request):
         return render(request, 'index.html', {'arts':arts})
     except:
         msg = "<B>Error</B>"
-       # raise
+        raise
         return HttpResponse(msg)
 @login_required
 def article(request,id):

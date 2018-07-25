@@ -38,6 +38,11 @@ bottom: 0px;
         <div class="logo">
             <!--img src="/static/img/WSL_LOGO_PION_rgb_800.jpg"-->
         </div>
+        
+        {% if user.is_authenticated %}
+        <a href="/accounts/logout">Wyloguj się</a><br>
+        {% endif %}
+
         <a href="/">Start</a>
         <!--a href="/documents">Materiały dydaktyczne</a>
         <a href="/Administracja OOL">Dokumenty</a-->

@@ -1,11 +1,22 @@
 {% extends "base.html" %}
 {% block title %}OOL - Logowanie{% endblock %}
 {% block content %}
-{% csrf_token %}
+
 <div class="container main">
+    <div class="pt-5"
+    <!-- Spacer--> 
+    </div>
     <form  method="post">
+            {% csrf_token %}
+            {% if message %}
+            <div class="alert alert-danger" role="alert">
+                    Błędna nazwa użytkownika lub hasło.
+                  </div>
+            {% endif %}
             <div class="form-group">
                 <input type="text" class="form-control form-control-sm" name="username" id="username" placeholder="Username" required>
+                <input type="password" class="form-control form-control-sm" name="password" id="password" placeholder="Password" required>
+                <button type="submit" class="btn btn-default">Zaloguj się</button>
             </div>
     </form>
 </div>
