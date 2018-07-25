@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}OOL - Logowanie{% endblock %}
+{% block content %}
+{% csrf_token %}
+<div class="container main">
+    <form  method="post">
+            <div class="form-group">
+                <input type="text" class="form-control form-control-sm" name="username" id="username" placeholder="Username" required>
+            </div>
+    </form>
+</div>
+
+
+{% endblock%}

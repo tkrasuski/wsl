@@ -29,5 +29,6 @@ urlpatterns = [
     re_path(r'^article/(?P<id>\d+)/$', views.article),
     re_path(r'^profile/$', views.profile),
     re_path(r'^school/$', views.school),
+    re_path(r'^accounts/login/$', views.login),
    
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

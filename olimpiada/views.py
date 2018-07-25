@@ -8,6 +8,9 @@ from .forms import *
 def login(request):
     return render(request,'login.html')
 
+def login(request):
+    arts={}
+    return render(request, 'login.html', {'arts':arts})
 
 @login_required
 def index(request):
