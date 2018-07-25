@@ -31,6 +31,7 @@ urlpatterns = [
     re_path(r'^school/$', views.school),
     re_path(r'^students/$', views.students),
     re_path(r'^student/(?P<id>\d+)/$', views.student),
+    re_path(r'^registerschool/$', views.registerschool),
     re_path(r'^accounts/login/$', views.userlogin),
     re_path(r'^accounts/logout/$', views.userlogout),
     

@@ -110,4 +110,13 @@ def student(request,id):
         pass
     
     return render(request, 'student.html',{'form':form})
-#def registerschool(request):
+def registerschool(request):
+    form = SchoolForm()
+    if request.method=='POST':
+        form = SchoolForm(request.POST)
+        if form.is_valid():
+            data = form.cleaned_data
+            school = School()
+            school.school = data['school']
+
+    return render(request, 'school.html',{'form':form})
