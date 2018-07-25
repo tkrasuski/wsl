@@ -9,7 +9,7 @@ from .forms import *
 
 def userlogin(request):
     #print (request.user.login)
-    arts={}
+    arts = Article.objects.filter(position__startswith='login')
     message = None
     if request.method=='POST':
         data = request.POST
@@ -90,4 +90,24 @@ def school(request):
         form = SchoolForm(initial=initial)
     return render(request, 'school.html',{'form':form})
 
+@login_required
+def students(request):
+    user = Teacher.objects.get(user=request.user)
+    myschoolid = user.school.id
+    students = Student.objects.filter(school=myschoolid)
+    if not students:
+        students=None
+    return render(request, 'students.html',{'students':students})
 
+@login_required
+def student(request,id):
+    user = Teacher.objects.get(user=request.user)
+    myschoolid = user.school.id
+    st = Student.objects.get(id=id)
+    initials = dict(first_name=st.first_name, last_name=st.last_name, classe=st.classe)
+    form = StudentForm(initial=initials)
+    if request.method=='POST':
+        pass
+    
+    return render(request, 'student.html',{'form':form})
+#def registerschool(request):

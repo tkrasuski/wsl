@@ -31,3 +31,8 @@ class SchoolForm(forms.Form):
     email = forms.CharField(label='E-mail',widget=forms.TextInput(attrs={'class':'form-control form-control-sm','placeholder':'E-mail'}))
     phone_number = forms.CharField(label='Numer telefonu',widget=forms.TextInput(attrs={'class':'form-control form-control-sm','placeholder':'Numer telefonu sekretariatu / dyrekcji'}))
     principal_name = forms.CharField(label='Dyrektor Szkoły',widget=forms.TextInput(attrs={'class':'form-control form-control-sm','placeholder':'Imię i nazwisko Dyrektora Szkoły'}))
+klasy = (('-','---'),('1','1'),('2','2'),('3','3'),('4','4'))
+class StudentForm(forms.Form):
+    first_name = forms.CharField(label='Imię',widget=forms.TextInput(attrs={'class':'form-control form-control-sm','placeholder':'Imię'}))
+    last_name = forms.CharField(label='Nazwisko',widget=forms.TextInput(attrs={'class':'form-control form-control-sm','placeholder':'Nazwisko'}))
+    classe = forms.CharField(validators=[validate_],label='Klasa',widget=forms.Select(choices=klasy,attrs={'class':'form-control form-control-sm','placeholder':'Klasa'}))
