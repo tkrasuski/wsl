@@ -33,6 +33,8 @@ class Teacher(models.Model):
     phone_no = models.IntegerField('Telefon kontaktowy')
     email =models.CharField('Adres email sekretariatu',validators=[email_regex], max_length=50, blank=False, default='adres@szkola.pl') 
     school = models.ForeignKey(School, on_delete=models.CASCADE)
+    obj_key = models.CharField('Klucz obiektu', max_length=50, blank=True) 
+    obj_state = models.CharField('Status obiektu', max_length=50, blank=True) 
     class Meta:
         verbose_name = "Nauczyciel"
         verbose_name_plural = "Nauczyciele"
@@ -63,6 +65,8 @@ class Student(models.Model):
     last_name = models.CharField('Nazwisko',max_length=100)
     school = models.ForeignKey(School, on_delete=models.CASCADE)
     classe = models.CharField('Klasa',max_length=100)
+    email =models.CharField('Adres email',validators=[email_regex], max_length=50, blank=False, default='uczen@szkola.pl') 
+    obj_key = models.CharField('Klucz obiektu', max_length=50, blank=True) 
     
     class Meta:
         verbose_name = "Uczeń"
