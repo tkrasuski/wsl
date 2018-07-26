@@ -1,10 +1,16 @@
 from django import forms
 from pagedown.widgets import PagedownWidget
 from .models import *
+
 def validate_(value):
     if value in ('-','---'):
-        raise ValidationError('Proszę wybrać wartość z listy')
-
+        raise forms.ValidationError('Proszę wybrać wartość z listy')
+def validate_length(value):
+    if len(value)<8:
+        raise forms.ValidationError('Nazwa użytkownika musi mieć przynajmniej 8 znaków')
+def validate_email(value):
+    if not '@' in value:
+        raise forms.ValidationError('Podaj prawidłowy adres email')
 class Article_(forms.ModelForm):
     title = forms.CharField()
     lead = forms.CharField()
@@ -18,6 +24,16 @@ class ProfileForm(forms.Form):
     position = forms.CharField(label='Tytuł lub stopień zawodowy / naukowy',widget=forms.TextInput(attrs={'class':'form-control form-control-sm','placeholder':'Tytuł lub stopień zawodowy / naukowy'}))
     phone_number = forms.CharField(label='Numer telefonu',widget=forms.TextInput(attrs={'class':'form-control form-control-sm','placeholder':'Numer telefonu'}))
     email = forms.CharField(label='E-mail',widget=forms.TextInput(attrs={'class':'form-control form-control-sm','placeholder':'E-mail'}))
+
+class RegisterUserForm(forms.Form):
+    login = forms.CharField(label='Nazwa użytkownika',validators=[validate_length],widget=forms.TextInput(attrs={'class':'form-control form-control-sm','placeholder':'Nazwa użytkownika'}))
+    password = forms.CharField(label='Hasło',widget=forms.PasswordInput(attrs={'class':'form-control form-control-sm','placeholder':'Hasło'}))
+    first_name = forms.CharField(label='Imię',widget=forms.TextInput(attrs={'class':'form-control form-control-sm','placeholder':'Imię'}))
+    last_name = forms.CharField(label='Nazwisko',widget=forms.TextInput(attrs={'class':'form-control form-control-sm','placeholder':'Nazwisko'}))
+    position = forms.CharField(label='Tytuł lub stopień zawodowy / naukowy',widget=forms.TextInput(attrs={'class':'form-control form-control-sm','placeholder':'Tytuł lub stopień zawodowy / naukowy'}))
+    phone_number = forms.CharField(label='Numer telefonu',widget=forms.TextInput(attrs={'class':'form-control form-control-sm','placeholder':'Numer telefonu'}))
+    email = forms.CharField(label='E-mail',validators=[validate_email],widget=forms.TextInput(attrs={'class':'form-control form-control-sm','placeholder':'E-mail'}))
+
 #class Teacher(forms.ModelForm)
 # wybór województw 
 vois = (('-','---'),('dolnośląskie','dolnośląskie'),('kujawsko-pomosrkie','kujawsko-pomosrkie'),('lubelskie','lubelskie'),('lubuskie','lubuskie'),('łódzkie','łódzkie'),('małopolskie','małopolskie'),('mazowieckie','mazowieckie'),('opolskie','opolskie'),('podkarpackie','podkarpackie'),('podlaskie','podlaskie'),('pomorskie','pomorskie'),('śląskie','śląskie'),('świętokrzyskie','świętokrzyskie'),('warmińsko-mazurskie','warmińsko-mazurskie'),('wielkopolskie','wielkopolskie'),('zachodniopomorskie','zachodniopomorskie'))

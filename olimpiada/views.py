@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 from django.shortcuts import redirect
 from django.shortcuts import render
 from django.utils import timezone
@@ -118,5 +119,43 @@ def registerschool(request):
             data = form.cleaned_data
             school = School()
             school.school = data['school']
+            school.street = data['street']
+            school.zip_code = data['zip_code']
+            school.city = data['city']
+            school.voivodeship = data['voivodeship']
+            school.authority = data['authority']
+            school.phone_number = data['phone_number']
+            school.principal_name = data['principal_name']
+            school.save()
+            obj = School.objects.latest('id')
+            request.session['myschool'] = obj.id
+            return HttpResponseRedirect('/registeruser')
 
     return render(request, 'school.html',{'form':form})
+def registeruser(request):
+    form = RegisterUserForm()
+    if request.method =='POST':
+        form = form = RegisterUserForm(request.POST)
+        if form.is_valid():
+            myschool = School.objects.get(id=int(request.session['myschool']))
+            print (myschool)
+            data = form.cleaned_data
+            teacher = Teacher()
+            teacher.first_name = data['first_name']
+            teacher.last_name = data['last_name']
+            teacher.position = data['position']
+            teacher.phone_no = data['phone_number']
+            teacher.email = data['email']
+            teacher.school = myschool
+            # creating user account
+            user = User.objects.create_user(username=data['login'], email=data['email'], password=data['password'], first_name=data['first_name'], last_name=data['last_name'], is_active=False)
+            teacher.user = user
+            teacher.save()
+            return HttpResponseRedirect('/registerinfo')
+    return render(request, 'registeruser.html',{'form':form})
+def registerinfo(request):
+    arts = Article.objects.filter(position__startswith='registerinfo')
+    return render(request, 'registerinfo.html',{'arts':arts})
+def registration(request):
+    arts = Article.objects.filter(position__startswith='registration')
+    return render(request, 'registration.html',{'arts':arts})
