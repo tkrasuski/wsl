@@ -1,4 +1,4 @@
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
@@ -7,6 +7,12 @@ from django.utils import timezone
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import Teacher, School, Article
 from .forms import *
+
+def is_teacher(user):
+    return user.groups.filter(name='nauczyciel').exists()
+
+def is_student(user):
+    return user.groups.filter(name='uczen').exists()
 
 def userlogin(request):
     #print (request.user.login)
@@ -27,12 +33,16 @@ def userlogin(request):
             return render(request, 'login.html', {'arts':arts, 'message':message})
     else:
         return render(request, 'login.html', {'arts':arts, 'message':message})
+
 def userlogout(request):
     logout(request)
     return HttpResponseRedirect('/accounts/login')
+
 @login_required
 def index(request):
     try:
+        if not request.user.groups.filter(name='nauczyciel').exists():
+            return HttpResponseRedirect('/studentpanel')
         arts = Article.objects.filter(position__startswith='index')
         #arts = Article.objects.all()
        # print (list(arts))
@@ -159,3 +169,15 @@ def registerinfo(request):
 def registration(request):
     arts = Article.objects.filter(position__startswith='registration')
     return render(request, 'registration.html',{'arts':arts})
+
+@login_required
+def studentspanel(request):
+    try:
+        if not request.user.groups.filter(name='uczen').exists():
+            return HttpResponseRedirect('/registration')
+        arts = Article.objects.filter(position__startswith='studentspanel')
+        return render(request, 'index.html', {'arts':arts})
+    except:
+        msg = "<B>Error</B>"
+        raise
+        return HttpResponse(msg)
