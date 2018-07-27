@@ -39,10 +39,37 @@ def userlogout(request):
     return HttpResponseRedirect('/accounts/login')
 
 @login_required
+def changepassword(request):
+    arts = Article.objects.filter(position__startswith='changepassword')
+    message = None
+    if request.method == 'POST':
+        data = request.POST
+        oldpass = data['oldpass']
+        newpass = data['newpass']
+        repass = data['repass']
+        ok = False
+        if len(newpass) < 8:
+            message = 'Hasło musi posiadać przynajmnie 8 znaków'
+            ok = False
+        elif oldpass == newpass:
+            message = 'Nowe hasło musi być inne niż stare'
+            ok = False
+        elif newpass != repass:
+            message = 'Hasło i jego potwierdzenie musza być zgodne'
+            ok = False
+        else:
+            user = User.objects.get(id=request.user.id)
+            user.set_password(newpass)
+            user.save()
+            return HttpResponseRedirect('/')
+        return render(request, 'changepassword.html', {'arts':arts, 'message':message})    
+    return render(request, 'changepassword.html', {'arts':arts, 'message':message})
+
+@login_required
 def index(request):
     try:
         if not request.user.groups.filter(name='nauczyciel').exists():
-            return HttpResponseRedirect('/studentpanel')
+            return HttpResponseRedirect('/studentspanel')
         arts = Article.objects.filter(position__startswith='index')
         #arts = Article.objects.all()
        # print (list(arts))
@@ -176,7 +203,7 @@ def studentspanel(request):
         if not request.user.groups.filter(name='uczen').exists():
             return HttpResponseRedirect('/registration')
         arts = Article.objects.filter(position__startswith='studentspanel')
-        return render(request, 'index.html', {'arts':arts})
+        return render(request, 'studentspanel.html', {'arts':arts})
     except:
         msg = "<B>Error</B>"
         raise

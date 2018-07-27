@@ -28,6 +28,7 @@ urlpatterns = [
     re_path(r'^form/$', FormView.as_view(template_name="form.html",form_class=forms.Article)),
     re_path(r'^article/(?P<id>\d+)/$', views.article),
     re_path(r'^profile/$', views.profile),
+    re_path(r'^changepassword/$', views.changepassword),
     re_path(r'^school/$', views.school),
     re_path(r'^students/$', views.students),
     re_path(r'^student/(?P<id>\d+)/$', views.student),
