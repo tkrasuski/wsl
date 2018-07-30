@@ -7,6 +7,7 @@ from django.utils import timezone
 from django.http import HttpResponse, HttpResponseRedirect
 from .models import Teacher, School, Article
 from .forms import *
+import hashlib
 
 def is_teacher(user):
     return user.groups.filter(name='nauczyciel').exists()
@@ -90,24 +91,27 @@ def article(request,id):
 # Widok edycji profilu nauczyciela
 @login_required
 def profile(request):
-    user = Teacher.objects.get(user=request.user)
-    if request.method=='POST':
-        form = ProfileForm(request.POST)
-        if form.is_valid():
-            data = form.cleaned_data
-            user.first_name = data['first_name']
-            user.last_name = data['last_name']
-            user.position = data['position']
-            user.email = data['email']
-            user.phone_no = data['phone_number']
-            user.save()
-            return HttpResponseRedirect('/')
+    try:
+        user = Teacher.objects.get(user=request.user)
+        if request.method=='POST':
+            form = ProfileForm(request.POST)
+            if form.is_valid():
+                data = form.cleaned_data
+                user.first_name = data['first_name']
+                user.last_name = data['last_name']
+                user.position = data['position']
+                user.email = data['email']
+                user.phone_no = data['phone_number']
+                user.save()
+                return HttpResponseRedirect('/')
 
-    else:
-        initial = dict(first_name=user.first_name, last_name=user.last_name, position=user.position, email=user.email, phone_number=user.phone_no)
-        form = ProfileForm(initial=initial)
-        
-    return render(request, 'profile.html',{'form':form})
+        else:
+            initial = dict(first_name=user.first_name, last_name=user.last_name, position=user.position, email=user.email, phone_number=user.phone_no)
+            form = ProfileForm(initial=initial)
+            
+        return render(request, 'profile.html',{'form':form})
+    except Teacher.DoesNotExist:
+        return HttpResponseRedirect('/registration')
 
 
 # widok do edycji danych szkoły
@@ -184,8 +188,14 @@ def registeruser(request):
             teacher.phone_no = data['phone_number']
             teacher.email = data['email']
             teacher.school = myschool
-            # creating user account
-            user = User.objects.create_user(username=data['login'], email=data['email'], password=data['password'], first_name=data['first_name'], last_name=data['last_name'], is_active=False)
+            # creating user account in not exist
+            if not request.user:
+                obj_key = hashlib.md5()
+                obj_key.update(data['first_name']+data['last_name'])
+                teacher.obj_key = obj_key.digest()
+                user = User.objects.create_user(username=data['login'], email=data['email'], password=data['password'], first_name=data['first_name'], last_name=data['last_name'], is_active=False)
+            else:
+                user = request.user
             teacher.user = user
             teacher.save()
             return HttpResponseRedirect('/registerinfo')

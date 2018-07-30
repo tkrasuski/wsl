@@ -1,0 +1,5 @@
+.DS_Store
+.browse.VC.db
+*.pyc
+db.sqlite3
+rejestracja/settings.py
